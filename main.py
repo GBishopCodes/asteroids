@@ -4,16 +4,21 @@ from player import *
 
 def main():
     pygame.init()
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (drawable, updatable)
+    main_player = Player(SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2)
     time_keeper = pygame.time.Clock()
     dt = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    main_player = Player(SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2)
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         screen.fill((0, 0, 0))
-        main_player.draw(screen)
+        for guy in drawable:
+            guy.draw(screen)
+        updatable.update(dt)
         pygame.display.flip()
         dt = time_keeper.tick(60) / 1000
 
